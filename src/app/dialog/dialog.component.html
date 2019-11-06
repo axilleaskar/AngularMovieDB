@@ -1,0 +1,38 @@
+
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" *ngIf="movie">
+            <img class="container__image"
+                src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" alt="">
+        
+        <div class="container__text">
+                
+            <h2>
+                {{movie.title}}<span class="close" (click)="close()">&times;</span>
+            </h2>
+
+            <p> Rating: {{movie.vote_average}}/10 from {{movie.vote_count}} reviews</p>  
+
+            <button mat-raised-button color="primary" (click)="vote()" *ngIf="!currentRate">Vote</button>
+            <button mat-raised-button color="accent" *ngIf="currentRate" (click)="submitVote()">Submit</button>
+            <ngb-rating [(rate)]="currentRate" *ngIf="currentRate"></ngb-rating>
+            <h4>Description</h4>
+            <p>{{movie.overview}}</p>
+
+            <h4>Release Date</h4>{{movie.release_date | date:'mediumDate'}}
+            <h4>Revenue</h4> {{movie.revenue | number}} $
+            <h4>Languages</h4> <div *ngFor="let languages of movie.spoken_languages">{{languages.name}}</div>
+            <h4>Add to Collection</h4>
+            <mat-form-field>
+                <mat-select placeholder="Add to collection" (selectionChange)="updateCollection(collection)" [(ngModel)]="collection" >
+                    <mat-option>None</mat-option>
+                  <mat-option *ngFor="let col of collections" [value]="col.title" >{{ col.title }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        
+        
+    </div>
+
+</div>

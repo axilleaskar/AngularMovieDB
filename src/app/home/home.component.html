@@ -1,0 +1,39 @@
+<div class="nav">
+
+    <a routerLink="/">Home</a>
+    <a routerLink="/collections">Collections</a>
+    <div class="search">
+        <form [formGroup]="searchForm">
+            
+            <input type="text" formControlName="search" placeholder="Search for a Movie">
+            <button (click)="getSearchResults()" class="searchButton" [disabled]="searchForm.get('search').invalid">Search</button>
+        </form>
+    </div>
+</div>
+
+
+
+<div style="margin-top: 100px;">
+    <div *ngFor="let movie of searchResults;let i = index" class="column">
+        <div style="width:150px; height: 200px;float: left;" class="imageClass">
+            <img style="width:150px; height: 200px;float: left;"
+                src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" alt="">
+        </div>
+        <div class="details">
+            <h2>
+                {{movie.title}}
+            </h2>
+
+            <p> Rating: {{movie.vote_average}}/10</p>
+
+            <button mat-raised-button color="primary" [routerLink]="[{outlets: {'id': [movie.id]}}]">Details</button>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="pagination" *ngIf="searchResults.length != 0">
+    <button (click)="previousPage()" [disabled]="this.currentPage === 1">❮</button>
+    <button (click)="nextPage()" [disabled]="this.currentPage === this.pages">❯</button>
+</div>
